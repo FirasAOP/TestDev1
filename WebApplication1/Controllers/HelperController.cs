@@ -4,25 +4,28 @@ using WebApplication1.Helpers;
 namespace WebApplication1.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class HelperController : ControllerBase
     {
-        private  CheckHelper _checkHelper;
+        private CheckHelper _checkHelper;
         public HelperController(CheckHelper checkHelper)
         {
-            _checkHelper = checkHelper;   
+            _checkHelper = checkHelper;
         }
-      
+
         [HttpGet(Name = "IsConnectedToInternet")]
         public IActionResult IsConnectedToInternet()
         {
+            var call = _checkHelper.CheckConnectionJobAsync();
+
             bool isConnected = false;
-            isConnected= _checkHelper.IsConnectedToInternet();
-            if(isConnected)
+            isConnected = _checkHelper.IsConnectedToInternet();
+            if (isConnected)
             {
-                return Content("Connected");
+                return new JsonResult(new {Status="Connected"});
             }
-            return Content("NotConnected");
+            return new JsonResult(new { Status = "NotConnected" });
         }
+
     }
 }
