@@ -10,10 +10,7 @@ namespace WebApplication1.Helpers
     public class CheckHelper
     {
         WebSocketHub _webSocketHub;
-        public CheckHelper()
-        {
-            
-        }
+   
         public CheckHelper(WebSocketHub webSocketHub)
         {
             _webSocketHub = webSocketHub;

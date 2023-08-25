@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebApplication1.Controllers;
 using WebApplication1.Helpers;
+using WebApplication1.Hub;
 using Xunit;
 
 namespace TestProject
@@ -14,9 +17,13 @@ namespace TestProject
     {
         private readonly HelperController _helperController;
         private readonly CheckHelper _checkHelper;
+        private readonly WebSocketHub _webSocketHub;
+
         public HelperControllerTest()
-        {
-             _checkHelper = new CheckHelper();
+        {   
+            _webSocketHub = new WebSocketHub();
+             _checkHelper = new CheckHelper(_webSocketHub);
+
             _helperController = new HelperController(_checkHelper);
         }
 
@@ -27,12 +34,15 @@ namespace TestProject
 
             //Act
             var result = _helperController.IsConnectedToInternet();
-            var resultType = result as ContentResult;
-            var resultValue = resultType?.Content;
+            var resultType = result as JsonResult;
+            var resultValue = resultType?.Value;
+            var jsonString = JsonConvert.SerializeObject(resultValue);
+            dynamic jsonObj = JObject.Parse(jsonString);
+            string status = jsonObj.Status;
             //Assert
             Assert.NotNull(result);
-            Assert.IsAssignableFrom<ContentResult>(resultType);
-            Assert.Equal("Connected", resultValue);
+            Assert.IsAssignableFrom<JsonResult>(resultType);
+            Assert.Equal("Connected", status);
             
         }
 
@@ -43,12 +53,15 @@ namespace TestProject
 
             //Act
             var result = _helperController.IsConnectedToInternet();
-            var resultType = result as ContentResult;
-            var resultValue = resultType?.Content;
+            var resultType = result as JsonResult;
+            var resultValue = resultType?.Value;
+            var jsonString = JsonConvert.SerializeObject(resultValue);
+            dynamic jsonObj = JObject.Parse(jsonString);
+            string status = jsonObj.Status;
             //Assert
             Assert.NotNull(result);
-            Assert.IsAssignableFrom<ContentResult>(resultType);
-            Assert.Equal("NotConnected", resultValue);
+            Assert.IsAssignableFrom<JsonResult>(resultType);
+            Assert.Equal("NotConnected", status);
 
         }
 

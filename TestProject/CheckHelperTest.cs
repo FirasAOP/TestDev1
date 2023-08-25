@@ -1,14 +1,16 @@
 ﻿using WebApplication1.Helpers;
+using WebApplication1.Hub;
 
 namespace TestProject
 {
     public class CheckHelperTest
     {
         private readonly CheckHelper _checkHelper;
-
+        private readonly WebSocketHub _webSocketHub;
         public CheckHelperTest()
         {
-            _checkHelper = new CheckHelper();
+            _webSocketHub = new WebSocketHub();
+            _checkHelper = new CheckHelper(_webSocketHub);
         }
         [Fact]
         public void IsConnectedToInternet_Success()
