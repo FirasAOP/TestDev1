@@ -31,12 +31,12 @@ namespace WebApplication1.Helpers
             while (await timer.WaitForNextTickAsync())
             {
                var  connectionStatus = IsConnectedToInternet();
-                //if (connectionStatus !=connectionStatusInit) 
-                //{
+                if (connectionStatus !=connectionStatusInit) 
+                {
                 // if a connection updated, send new data to all sockets
               
                 await _webSocketHub.SendAll(JsonConvert.SerializeObject(new {status = connectionStatus}));
-                //}
+                }
                 connectionStatusInit = connectionStatus;
                
             }
