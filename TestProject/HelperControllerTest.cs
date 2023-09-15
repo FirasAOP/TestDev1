@@ -33,6 +33,8 @@ namespace TestProject
             //Arrange
 
             //Act
+            CheckHelper c = new CheckHelper(_webSocketHub);
+            var r = c.IsConnectedToInternet();
             var result = _helperController.IsConnectedToInternet();
             var resultType = result as JsonResult;
             var resultValue = resultType?.Value;

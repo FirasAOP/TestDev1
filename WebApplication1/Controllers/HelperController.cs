@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Helpers;
+using WebApplication1.Test;
 
 namespace WebApplication1.Controllers
 {
@@ -26,6 +27,33 @@ namespace WebApplication1.Controllers
             }
             return new JsonResult(new { Status = "NotConnected" });
         }
+
+        [HttpPost("testApi")]
+        public IActionResult TestApi(string testParam1, string testParam2,TestModel requestBody)
+        {
+            if (requestBody.status)
+            {
+                //do something
+            }
+            var internalObj = new
+            {
+                title = "Software Developer",
+                Age = 30,
+                Company = "AlphaOmega"
+            };
+            var Obj = new
+            {
+                name = "firas",
+                email = "Firas@gmail.com",
+                address = "Ramallah",
+                Job = "Developer",
+                Details = "more details come later...",
+                InternalDetails= internalObj
+            };
+            return  new JsonResult(Obj);
+        }
+
+
 
     }
 }

@@ -21,7 +21,7 @@ namespace WebApplication1.Hub
                 // if socket open send initial message
                 if (webSocket.State == WebSocketState.Open)
                 {
-                    var messageObject = new { status = "Start" };
+                    var messageObject = new { status = "Start123" };
                     var messageString = JsonConvert.SerializeObject(messageObject);
                     var bytes = Encoding.UTF8.GetBytes(messageString);
                     await webSocket.SendAsync(new ArraySegment<byte>(bytes, 0, bytes.Length), WebSocketMessageType.Text, true, CancellationToken.None);
